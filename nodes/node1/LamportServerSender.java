@@ -23,6 +23,12 @@ public class LamportServerSender extends Thread {
             System.out.println("Message Sent!!");
         } catch (IOException e) {
             System.out.println(e);
+        } finally {
+            try {
+                this.conn.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }    
 }

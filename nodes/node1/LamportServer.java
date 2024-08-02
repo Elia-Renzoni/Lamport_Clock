@@ -44,6 +44,8 @@ public class LamportServer implements Runnable {
             lamportClock.eventOccurred(this.extractSenderLamportClock(reader));
         } catch (IOException ex) {
             System.out.println(ex);
+        } finally {
+            this.closeConnection();
         }
     }
 }
