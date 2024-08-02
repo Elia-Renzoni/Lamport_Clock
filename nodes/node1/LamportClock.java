@@ -1,61 +1,39 @@
 package nodes.node1;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.nio.Buffer;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class LamportClock implements Runnable {
+public class LamportClock {
     private int lamportClock;
-    private Socket connection;
     private ReentrantLock mutex;
-    private String message;
+    private static LamportClock myInstance;
 
-    public LamportClock(final Socket conn) {
-        this.connection = conn;
+    private LamportClock() {
+        this.mutex = new ReentrantLock();
     }
 
-    private void eventOccurred(int senderLamport) {
+    public static LamportClock getLamportClock() {
+        if (LamportClock.myInstance == null) {
+            LamportClock.myInstance = new LamportClock();
+        }
+        return LamportClock.myInstance;
+    }
+
+    public void eventOccurred(int senderClock) {
         this.mutex.lock();
         try {
-            this.lamportClock = Math.max(this.lamportClock, senderLamport) + 1;
-            System.out.println("Lamport Clock Value: " + this.lamportClock);
+            this.lamportClock = Math.max(lamportClock, senderClock) + 1;
+            System.out.println("Node A Lamport Clock... " + this.lamportClock);
         } finally {
             this.mutex.unlock();
         }
     }
 
-    private int extractSenderLamportClock(BufferedReader buffer) {
-       int senderLamport = 0;
-       try {
-        this.message = buffer.readLine();
-        senderLamport = Integer.parseInt(buffer.readLine());
-       } catch (IOException ex) {
-        System.out.println(ex);
-       }
-       return senderLamport;
-    }
-
-    private void closeConnection() {
+    public int getLogicalClock() {
+        this.mutex.lock();
         try {
-            this.connection.close();
-        } catch (IOException e) {
-            System.out.println(e);
+            return this.lamportClock;
+        } finally {
+            this.mutex.unlock();
         }
     }
-
-    @Override
-    public void run() {
-        try {
-            var reader = new BufferedReader(new InputStreamReader(this.connection.getInputStream()));
-            this.eventOccurred(this.extractSenderLamportClock(reader));
-        } catch (IOException ex) {
-            System.out.println(ex);
-        }
-
-        // now the thread start a broadcast session.
-    }
-    
 }

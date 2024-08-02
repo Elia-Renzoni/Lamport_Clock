@@ -20,5 +20,4 @@ public enum NodeSystem {
     public int getNodePort() {
         return this.nodeListenPort;
     }
-    
 }
