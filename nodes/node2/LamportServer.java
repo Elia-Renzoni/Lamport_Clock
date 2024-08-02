@@ -2,10 +2,10 @@ package nodes.node2;
 
 import java.net.Socket;
 
-public class LamportClock implements Runnable {
+public class LamportServer implements Runnable {
     private Socket conn;
 
-    public LamportClock(final Socket conn) {
+    public LamportServer(final Socket conn) {
         this.conn = conn;
     }
 

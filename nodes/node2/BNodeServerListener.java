@@ -6,16 +6,17 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BNodeLamportServer {
+public class BNodeLamportServer extends Thread {
     private int listenPort;
     private int threadPoolSize;
 
     public BNodeLamportServer(int port, int threads) {
+        super("Listener");
         this.listenPort = port;
         this.threadPoolSize = threads;
     }
 
-    public void start() {
+    public void run() {
         ExecutorService threadPool = Executors.newFixedThreadPool(this.threadPoolSize);
 
         try {
