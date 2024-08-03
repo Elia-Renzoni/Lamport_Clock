@@ -14,6 +14,13 @@ public class ANode {
         ANodeServerListener lamport = new ANodeServerListener(LISTEN_PORT, THREADS);
         // Node A is now listening at the requestss
         lamport.start();
+
+        // Only for sync.
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         
         try {
             senders[0] = new LamportServerSender(new Socket(NodeSystem.NODEB.getNodeHost(), NodeSystem.NODEB.getNodePort()), 0);
@@ -21,6 +28,7 @@ public class ANode {
             senders[1] = new LamportServerSender(new Socket(NodeSystem.NODEC.getNodeHost(), NodeSystem.NODEC.getNodePort()), 1);
             senders[1].start();
         } catch (Exception ex) {
+            System.out.println("errorA");
             System.out.println(ex);
         }
         

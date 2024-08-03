@@ -11,10 +11,18 @@ public class CNode {
         CNodeLamportServer lamport = new CNodeLamportServer(LISTEN_PORT, THREADS);
         lamport.start();
 
+        // Only for Sync.
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         try {
             senders = new LamportServerSender(new Socket(NodeSystem.NODEA.getNodeHost(), NodeSystem.NODEA.getNodePort()));
             senders.start();
         } catch (IOException ex) {
+            System.out.println("errorC");
             System.out.println(ex);
         }
 

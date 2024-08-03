@@ -14,12 +14,20 @@ public class BNode {
         BNodeServerListener lamport = new BNodeServerListener(LISTEN_PORT, THREADS);
         lamport.start();
 
+        // Only for sync. 
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         try {
             senders[0] = new LamportServerSender(new Socket(NodeSystem.NODEA.getNodeHost(), NodeSystem.NODEA.getNodePort()), 0);
             senders[0].start();
             senders[1] = new LamportServerSender(new Socket(NodeSystem.NODEC.getNodeHost(), NodeSystem.NODEC.getNodePort()), 1);
             senders[1].start();
         } catch (IOException ex) {
+            System.out.println("errorB");
             System.out.println(ex);
         }
         
