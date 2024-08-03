@@ -16,6 +16,7 @@ public class CNodeLamportServer extends Thread {
         this.threadPoolSize = threads;
     }
 
+    @Override
     public void run() {
         ExecutorService threadPool = Executors.newFixedThreadPool(this.threadPoolSize);
 
@@ -25,12 +26,12 @@ public class CNodeLamportServer extends Thread {
 
             while (true) {
                 Socket connection = conn.accept();
+                System.out.println("Accepted!");
                 LamportServer lamport = new LamportServer(connection);
                 threadPool.submit(lamport);
             }
         } catch (IOException ex) {
             System.out.println(ex);
-
         }
     }
 }

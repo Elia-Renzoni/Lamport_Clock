@@ -25,6 +25,7 @@ public class ANodeServerListener extends Thread {
             System.out.println("A Node Server start to listen to the requests...");
             while (true) {
                 Socket connection = conn.accept();
+                System.out.println("Accepted!");
                 LamportServer thread = new LamportServer(connection);
                 threadPool.submit(thread);
             }

@@ -14,26 +14,26 @@ public class LamportServerSender extends Thread {
         this.lamport = LamportClock.getInstance();
     }
 
+    @Override
     public void run() {
+       Socket connection = this.conn;
        try {
            for (;;) {
-               Thread.sleep(8000);
+               Thread.sleep(4000);
 
-               var writer = new OutputStreamWriter(this.conn.getOutputStream());
+               var writer = new OutputStreamWriter(connection.getOutputStream());
                this.lamport.eventOccurred(0);
 
-               writer.write("" + this.lamport.getLogicalClock() + "\n" + " Hello From Node B!");
+               writer.write("" + this.lamport.getLogicalClock() + "\n" + "Hello From Node B!");
                writer.flush();
                System.out.println("Message Sent!");
+               
+               connection.close();
+               connection = new Socket(this.conn.getLocalAddress().getHostAddress(), this.conn.getPort());
            }
        } catch (IOException | InterruptedException ex) {
+        System.out.println("ErroreB");
         System.out.println(ex);
-       } finally {
-        try {
-            this.conn.close();
-        } catch (IOException e) {
-            System.out.println(e);
-        }
        }
     }
     
