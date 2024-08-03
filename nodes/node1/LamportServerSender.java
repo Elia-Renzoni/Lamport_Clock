@@ -21,7 +21,7 @@ public class LamportServerSender extends Thread {
 
                 var writer = new OutputStreamWriter(this.conn.getOutputStream());
                 this.lamportClock.eventOccurred(0);
-                writer.write("" + this.lamportClock.getLogicalClock() + " \n" + " Hello From Node A");
+                writer.write("" + this.lamportClock.getLogicalClock() + "\n" + " Hello From Node A");
                 writer.flush();
                 System.out.println("Message Sent!!");
             }
