@@ -17,7 +17,7 @@ public class LamportServerSender extends Thread {
     public void run() {
        try {
            for (;;) {
-               Thread.sleep(2000);
+               Thread.sleep(8000);
 
                var writer = new OutputStreamWriter(this.conn.getOutputStream());
                this.lamport.eventOccurred(0);

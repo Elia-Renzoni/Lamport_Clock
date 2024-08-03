@@ -6,16 +6,17 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class CNodeLamportServer {
+public class CNodeLamportServer extends Thread {
     private int listenPort;
     private int threadPoolSize;
 
     public CNodeLamportServer(final int port, final int threads) {
+        super("Server");
         this.listenPort = port;
         this.threadPoolSize = threads;
     }
 
-    public void start() {
+    public void run() {
         ExecutorService threadPool = Executors.newFixedThreadPool(this.threadPoolSize);
 
         try {
@@ -24,7 +25,7 @@ public class CNodeLamportServer {
 
             while (true) {
                 Socket connection = conn.accept();
-                LamportClock lamport = new LamportClock(connection);
+                LamportServer lamport = new LamportServer(connection);
                 threadPool.submit(lamport);
             }
         } catch (IOException ex) {
