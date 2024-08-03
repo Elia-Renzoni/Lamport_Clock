@@ -8,6 +8,7 @@ import java.net.Socket;
 public class LamportServer implements Runnable {
     private Socket conn;
     private LamportClock lamport;
+    private String message;
 
     public LamportServer(final Socket conn) {
         this.conn = conn;
@@ -18,6 +19,7 @@ public class LamportServer implements Runnable {
        int senderLamport = 0;
        try {
         senderLamport = Integer.parseInt(buffer.readLine());
+        this.message = buffer.readLine();
        } catch (Exception ex) {
         System.out.println(ex);
        } 
@@ -37,6 +39,7 @@ public class LamportServer implements Runnable {
         try {
             var reader = new BufferedReader(new InputStreamReader(this.conn.getInputStream()));
             this.lamport.eventOccurred(this.extractSenderLamportClock(reader));
+            System.out.println(this.message);
         } catch (IOException e) {
             System.out.println(e);
         }
