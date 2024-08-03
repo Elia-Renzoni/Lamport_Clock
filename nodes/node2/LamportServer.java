@@ -42,6 +42,8 @@ public class LamportServer implements Runnable {
             System.out.println(this.message);
         } catch (IOException e) {
             System.out.println(e);
+        } finally {
+            this.closeConnection();
         }
     }
     
