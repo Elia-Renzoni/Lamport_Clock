@@ -6,11 +6,11 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class BNodeLamportServer extends Thread {
+public class BNodeServerListener extends Thread {
     private int listenPort;
     private int threadPoolSize;
 
-    public BNodeLamportServer(int port, int threads) {
+    public BNodeServerListener(int port, int threads) {
         super("Listener");
         this.listenPort = port;
         this.threadPoolSize = threads;
@@ -25,7 +25,7 @@ public class BNodeLamportServer extends Thread {
 
             while (true) {
                 Socket connection = conn.accept();
-                LamportClock lamport = new LamportClock(connection);
+                LamportServer lamport = new LamportServer(connection);
                 threadPool.submit(lamport);
             }
         } catch (IOException ex) {

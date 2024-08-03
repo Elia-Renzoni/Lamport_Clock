@@ -10,9 +10,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class LamportServer implements Runnable {
     private LamportClock lamportClock;
     private Socket connection;
-    private ReentrantLock mutex;
-    private String message;
-
+    
     public LamportServer(final Socket conn) {
         this.connection = conn;
         this.lamportClock = LamportClock.getLamportClock();
@@ -21,7 +19,6 @@ public class LamportServer implements Runnable {
     private int extractSenderLamportClock(BufferedReader buffer) {
        int senderLamport = 0;
        try {
-        this.message = buffer.readLine();
         senderLamport = Integer.parseInt(buffer.readLine());
        } catch (IOException ex) {
         System.out.println(ex);
