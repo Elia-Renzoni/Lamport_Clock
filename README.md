@@ -21,7 +21,7 @@ on receiving messages:
 end
 
 on sending messages:
-lamportClock := lamportClock + 1;
+ lamportClock := lamportClock + 1;
 end
 ```
 
