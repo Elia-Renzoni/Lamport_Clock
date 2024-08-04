@@ -6,6 +6,25 @@ Lamport Clock is made of an interger held locally by the nodes in the system. Wh
 System Functionality: <br>
 ![image](https://github.com/user-attachments/assets/36ed30cf-b464-4145-b782-0d1fd98e10ad)
 
+Node A send messages to node B and C, like the previous node, node B sent messages at two nodes: node A and C, whilst node C send messages only to node A. <br>
+
+The messages sent are made of the sender's lamport clock and the actual message. <br>
+
+Simple demostration of the algorithm involved: <br>
+```
+on node start:
+ lamportClock := 0;
+end
+
+on receiving messages:
+ lamportClock := max(lamportClock, senderLamportClock) + 1;
+end
+
+on sending messages:
+lamportClock := lamportClock + 1;
+end
+```
+
 
 
  
